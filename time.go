@@ -20,6 +20,12 @@ func NullTimeOf(value time.Time) NullTime {
 	return t
 }
 
+func NullPtrTimeOf(value time.Time) *NullTime {
+	var t NullTime
+	t.Set(value)
+	return &t
+}
+
 // Valid return the value is valid. If true, it is not null value.
 func (t *NullTime) Valid() bool {
 	return t.v

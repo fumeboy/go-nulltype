@@ -138,3 +138,22 @@ func TestNullStringValueConverter(t *testing.T) {
 		t.Fatalf("must be null but got %v", gotv)
 	}
 }
+
+func TestTest(t *testing.T) {
+	type test2 struct {
+		S string
+		A int
+	}
+	type test struct {
+		S *NullString
+		T2 *test2
+	}
+	var tt = test{}
+	var ss = NullStringOf("")
+	var tt2 = test2{"a", 1, }
+	tt2.S = "a"
+	tt.T2 = &tt2
+	tt.S = &ss
+	d, _ := json.Marshal(&tt)
+	fmt.Println(string(d), 1, tt.S == nil)
+}

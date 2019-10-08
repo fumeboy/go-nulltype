@@ -19,6 +19,12 @@ func NullFloat64Of(value float64) NullFloat64 {
 	return s
 }
 
+func NullPtrFloat64Of(value float64) *NullFloat64 {
+	var s NullFloat64
+	s.Set(value)
+	return &s
+}
+
 // Valid return the value is valid. If true, it is not null value.
 func (f *NullFloat64) Valid() bool {
 	return f.f.Valid

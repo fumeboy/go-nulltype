@@ -19,6 +19,12 @@ func NullInt64Of(value int64) NullInt64 {
 	return s
 }
 
+func NullPtrInt64Of(value int64) *NullInt64 {
+	var s NullInt64
+	s.Set(value)
+	return &s
+}
+
 // Valid return the value is valid. If true, it is not null value.
 func (i *NullInt64) Valid() bool {
 	return i.i.Valid

@@ -18,6 +18,12 @@ func NullBoolOf(value bool) NullBool {
 	return b
 }
 
+func NullPtrBoolPtrOf(value bool) *NullBool {
+	var b NullBool
+	b.Set(value)
+	return &b
+}
+
 // Valid return the value is valid. If true, it is not null value.
 func (b *NullBool) Valid() bool {
 	return b.b.Valid
