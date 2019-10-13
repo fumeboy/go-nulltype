@@ -6,53 +6,53 @@ import (
 	"encoding/json"
 )
 
-// NullString is null friendly type for string.
-type NullString struct {
+// String is null friendly type for string.
+type String struct {
 	s sql.NullString
 }
 
-// NullStringOf return NullString that he value is set.
-func NullStringOf(value string) NullString {
-	var s NullString
+// StringOf return String that he value is set.
+func StringOf(value string) String {
+	var s String
 	s.Set(value)
 	return s
 }
 
-func NullPtrStringOf(value string) *NullString {
-	var s NullString
+func PtrStringOf(value string) *String {
+	var s String
 	s.Set(value)
 	return &s
 }
 
 // Valid return the value is valid. If true, it is not null value.
-func (s *NullString) Valid() bool {
+func (s *String) Valid() bool {
 	return s.s.Valid
 }
 
 // StringValue return the value.
-func (s *NullString) StringValue() string {
+func (s *String) StringValue() string {
 	return s.s.String
 }
 
 // Reset set nil to the value.
-func (s *NullString) Reset() {
+func (s *String) Reset() {
 	s.s.String = ""
 	s.s.Valid = false
 }
 
 // Set set the value.
-func (s *NullString) Set(value string) {
+func (s *String) Set(value string) {
 	s.s.Valid = true
 	s.s.String = value
 }
 
 // Scan is a method for database/sql.
-func (s *NullString) Scan(value interface{}) error {
+func (s *String) Scan(value interface{}) error {
 	return s.s.Scan(value)
 }
 
 // String return string indicated the value.
-func (s NullString) String() string {
+func (s String) String() string {
 	if !s.s.Valid {
 		return ""
 	}
@@ -60,7 +60,7 @@ func (s NullString) String() string {
 }
 
 // MarshalJSON encode the value to JSON.
-func (s NullString) MarshalJSON() ([]byte, error) {
+func (s String) MarshalJSON() ([]byte, error) {
 	if !s.s.Valid {
 		return []byte("null"), nil
 	}
@@ -68,7 +68,7 @@ func (s NullString) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON decode data to the value.
-func (s *NullString) UnmarshalJSON(data []byte) error {
+func (s *String) UnmarshalJSON(data []byte) error {
 	var value *string
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
@@ -83,7 +83,7 @@ func (s *NullString) UnmarshalJSON(data []byte) error {
 }
 
 // Value implement driver.Valuer.
-func (s NullString) Value() (driver.Value, error) {
+func (s String) Value() (driver.Value, error) {
 	if !s.Valid() {
 		return nil, nil
 	}

@@ -9,7 +9,7 @@ import (
 func TestTemplate(t *testing.T) {
 	value := struct {
 		Data1 string
-		Data2 NullString
+		Data2 String
 	}{}
 	tpl, err := template.New("mytemplate").Parse(`{{.Data1}},{{.Data2}}`)
 	if err != nil {

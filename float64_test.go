@@ -9,7 +9,7 @@ import (
 )
 
 func TestNullFloat64Stringer(t *testing.T) {
-	var f NullFloat64
+	var f Float64
 
 	want := ""
 	got := fmt.Sprint(f)
@@ -25,7 +25,7 @@ func TestNullFloat64Stringer(t *testing.T) {
 	}
 
 	want = "3.15"
-	f = NullFloat64Of(3.15)
+	f = Float64Of(3.15)
 	got = fmt.Sprint(f)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -40,7 +40,7 @@ func TestNullFloat64Stringer(t *testing.T) {
 }
 
 func TestNullFloat64MarshalJSON(t *testing.T) {
-	var f NullFloat64
+	var f Float64
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(f)
@@ -70,7 +70,7 @@ func TestNullFloat64MarshalJSON(t *testing.T) {
 }
 
 func TestNullFloat64UnmarshalJSON(t *testing.T) {
-	var f NullFloat64
+	var f Float64
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&f)
 	if err != nil {
@@ -105,7 +105,7 @@ func TestNullFloat64UnmarshalJSON(t *testing.T) {
 }
 
 func TestNullFloat64ValueConverter(t *testing.T) {
-	var f NullFloat64
+	var f Float64
 
 	err := f.Scan("3.14")
 	if err != nil {

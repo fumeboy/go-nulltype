@@ -7,43 +7,43 @@ import (
 	"time"
 )
 
-// NullTime is null friendly type for string.
-type NullTime struct {
+// Time is null friendly type for string.
+type Time struct {
 	t time.Time
 	v bool // Valid is true if Time is not NULL
 }
 
-// NullTimeOf return NullTime that he value is set.
-func NullTimeOf(value time.Time) NullTime {
-	var t NullTime
+// TimeOf return Time that he value is set.
+func TimeOf(value time.Time) Time {
+	var t Time
 	t.Set(value)
 	return t
 }
 
-func NullPtrTimeOf(value time.Time) *NullTime {
-	var t NullTime
+func PtrTimeOf(value time.Time) *Time {
+	var t Time
 	t.Set(value)
 	return &t
 }
 
 // Valid return the value is valid. If true, it is not null value.
-func (t *NullTime) Valid() bool {
+func (t *Time) Valid() bool {
 	return t.v
 }
 
 // TimeValue return the value.
-func (t *NullTime) TimeValue() time.Time {
+func (t *Time) TimeValue() time.Time {
 	return t.t
 }
 
 // Reset set nil to the value.
-func (t *NullTime) Reset() {
+func (t *Time) Reset() {
 	t.t = time.Unix(0, 0)
 	t.v = false
 }
 
 // Set set the value.
-func (t *NullTime) Set(value time.Time) {
+func (t *Time) Set(value time.Time) {
 	t.v = true
 	t.t = value
 }
@@ -62,7 +62,7 @@ var timestampFormats = []string{
 }
 
 // Scan is a method for database/sql.
-func (t *NullTime) Scan(value interface{}) error {
+func (t *Time) Scan(value interface{}) error {
 	t.t, t.v = value.(time.Time)
 	if t.v {
 		return nil
@@ -86,7 +86,7 @@ func (t *NullTime) Scan(value interface{}) error {
 }
 
 // Time return string indicated the value.
-func (t NullTime) String() string {
+func (t Time) String() string {
 	if !t.v {
 		return ""
 	}
@@ -94,7 +94,7 @@ func (t NullTime) String() string {
 }
 
 // MarshalJSON encode the value to JSON.
-func (t NullTime) MarshalJSON() ([]byte, error) {
+func (t Time) MarshalJSON() ([]byte, error) {
 	if !t.v {
 		return []byte("null"), nil
 	}
@@ -102,7 +102,7 @@ func (t NullTime) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON decode data to the value.
-func (t *NullTime) UnmarshalJSON(data []byte) error {
+func (t *Time) UnmarshalJSON(data []byte) error {
 	var value *string
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
@@ -121,7 +121,7 @@ func (t *NullTime) UnmarshalJSON(data []byte) error {
 }
 
 // Value implement driver.Valuer.
-func (t NullTime) Value() (driver.Value, error) {
+func (t Time) Value() (driver.Value, error) {
 	if !t.Valid() {
 		return nil, nil
 	}

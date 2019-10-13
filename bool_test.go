@@ -9,7 +9,7 @@ import (
 )
 
 func TestNullBoolStringer(t *testing.T) {
-	var b NullBool
+	var b Bool
 
 	want := ""
 	got := fmt.Sprint(b)
@@ -25,7 +25,7 @@ func TestNullBoolStringer(t *testing.T) {
 	}
 
 	want = "false"
-	b = NullBoolOf(false)
+	b = BoolOf(false)
 	got = fmt.Sprint(b)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -40,7 +40,7 @@ func TestNullBoolStringer(t *testing.T) {
 }
 
 func TestNullBoolMarshalJSON(t *testing.T) {
-	var b NullBool
+	var b Bool
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(b)
@@ -84,7 +84,7 @@ func TestNullBoolMarshalJSON(t *testing.T) {
 }
 
 func TestNullBoolUnmarshalJSON(t *testing.T) {
-	var b NullBool
+	var b Bool
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&b)
 	if err != nil {
@@ -117,7 +117,7 @@ func TestNullBoolUnmarshalJSON(t *testing.T) {
 }
 
 func TestNullBoolValueConverter(t *testing.T) {
-	var b NullBool
+	var b Bool
 
 	err := b.Scan("1")
 	if err != nil {

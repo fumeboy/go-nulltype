@@ -9,7 +9,7 @@ import (
 )
 
 func TestNullStringStringer(t *testing.T) {
-	var s NullString
+	var s String
 
 	want := ""
 	got := fmt.Sprint(s)
@@ -25,7 +25,7 @@ func TestNullStringStringer(t *testing.T) {
 	}
 
 	want = "bar"
-	s = NullStringOf("bar")
+	s = StringOf("bar")
 	got = fmt.Sprint(s)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -40,7 +40,7 @@ func TestNullStringStringer(t *testing.T) {
 }
 
 func TestNullStringMarshalJSON(t *testing.T) {
-	var s NullString
+	var s String
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(s)
@@ -70,7 +70,7 @@ func TestNullStringMarshalJSON(t *testing.T) {
 }
 
 func TestNullStringUnmarshalJSON(t *testing.T) {
-	var s NullString
+	var s String
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&s)
 	if err != nil {
@@ -103,7 +103,7 @@ func TestNullStringUnmarshalJSON(t *testing.T) {
 }
 
 func TestNullStringValueConverter(t *testing.T) {
-	var s NullString
+	var s String
 
 	err := s.Scan("1")
 	if err != nil {
@@ -145,11 +145,11 @@ func TestTest(t *testing.T) {
 		A int
 	}
 	type test struct {
-		S *NullString
+		S *String
 		T2 *test2
 	}
 	var tt = test{}
-	var ss = NullStringOf("")
+	var ss = StringOf("")
 	var tt2 = test2{"a", 1, }
 	tt2.S = "a"
 	tt.T2 = &tt2

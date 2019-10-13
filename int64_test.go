@@ -9,7 +9,7 @@ import (
 )
 
 func TestNullInt64Stringer(t *testing.T) {
-	var i NullInt64
+	var i Int64
 
 	want := ""
 	got := fmt.Sprint(i)
@@ -25,7 +25,7 @@ func TestNullInt64Stringer(t *testing.T) {
 	}
 
 	want = "5"
-	i = NullInt64Of(5)
+	i = Int64Of(5)
 	got = fmt.Sprint(i)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -39,7 +39,7 @@ func TestNullInt64Stringer(t *testing.T) {
 }
 
 func TestNullInt64MarshalJSON(t *testing.T) {
-	var i NullInt64
+	var i Int64
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(i)
@@ -69,7 +69,7 @@ func TestNullInt64MarshalJSON(t *testing.T) {
 }
 
 func TestNullInt64UnmarshalJSON(t *testing.T) {
-	var i NullInt64
+	var i Int64
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&i)
 	if err != nil {
@@ -102,7 +102,7 @@ func TestNullInt64UnmarshalJSON(t *testing.T) {
 }
 
 func TestNullInt64ValueConverter(t *testing.T) {
-	var i NullInt64
+	var i Int64
 
 	err := i.Scan("3")
 	if err != nil {

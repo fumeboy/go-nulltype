@@ -10,7 +10,7 @@ import (
 )
 
 func TestNullTimeStringer(t *testing.T) {
-	var nt NullTime
+	var nt Time
 
 	want := ""
 	got := fmt.Sprint(nt)
@@ -26,7 +26,7 @@ func TestNullTimeStringer(t *testing.T) {
 		t.Fatalf("want %v, but %v:", want, got)
 	}
 
-	nt = NullTimeOf(now)
+	nt = TimeOf(now)
 	got = fmt.Sprint(nt)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -41,7 +41,7 @@ func TestNullTimeStringer(t *testing.T) {
 }
 
 func TestNullTimeMarshalJSON(t *testing.T) {
-	var nt NullTime
+	var nt Time
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(nt)
@@ -72,7 +72,7 @@ func TestNullTimeMarshalJSON(t *testing.T) {
 }
 
 func TestNullTimeUnmarshalJSON(t *testing.T) {
-	var nt NullTime
+	var nt Time
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&nt)
 	if err != nil {
@@ -111,7 +111,7 @@ func TestNullTimeUnmarshalJSON(t *testing.T) {
 }
 
 func TestNullTimeValueConverter(t *testing.T) {
-	var nt NullTime
+	var nt Time
 
 	now := time.Now()
 	err := nt.Scan(now)

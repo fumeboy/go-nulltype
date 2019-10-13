@@ -7,54 +7,54 @@ import (
 	"fmt"
 )
 
-// NullFloat64 is null friendly type for float64.
-type NullFloat64 struct {
+// Float64 is null friendly type for float64.
+type Float64 struct {
 	f sql.NullFloat64
 }
 
-// NullFloat64Of return NullFloat64 that he value is set.
-func NullFloat64Of(value float64) NullFloat64 {
-	var s NullFloat64
+// Float64Of return Float64 that he value is set.
+func Float64Of(value float64) Float64 {
+	var s Float64
 	s.Set(value)
 	return s
 }
 
-func NullPtrFloat64Of(value float64) *NullFloat64 {
-	var s NullFloat64
+func PtrFloat64Of(value float64) *Float64 {
+	var s Float64
 	s.Set(value)
 	return &s
 }
 
 // Valid return the value is valid. If true, it is not null value.
-func (f *NullFloat64) Valid() bool {
+func (f *Float64) Valid() bool {
 	return f.f.Valid
 }
 
 // Float64Value return the value.
-func (f *NullFloat64) Float64Value() float64 {
+func (f *Float64) Float64Value() float64 {
 	return f.f.Float64
 }
 
 // Reset set nil to the value.
-func (f *NullFloat64) Reset() {
+func (f *Float64) Reset() {
 	f.f.Float64 = 0
 	f.f.Valid = false
 }
 
 // Set set the value.
-func (f *NullFloat64) Set(value float64) *NullFloat64 {
+func (f *Float64) Set(value float64) *Float64 {
 	f.f.Valid = true
 	f.f.Float64 = value
 	return f
 }
 
 // Scan is a method for database/sql.
-func (f *NullFloat64) Scan(value interface{}) error {
+func (f *Float64) Scan(value interface{}) error {
 	return f.f.Scan(value)
 }
 
 // String return string indicated the value.
-func (f NullFloat64) String() string {
+func (f Float64) String() string {
 	if !f.f.Valid {
 		return ""
 	}
@@ -62,7 +62,7 @@ func (f NullFloat64) String() string {
 }
 
 // MarshalJSON encode the value to JSON.
-func (f NullFloat64) MarshalJSON() ([]byte, error) {
+func (f Float64) MarshalJSON() ([]byte, error) {
 	if !f.f.Valid {
 		return []byte("null"), nil
 	}
@@ -70,7 +70,7 @@ func (f NullFloat64) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON decode data to the value.
-func (f *NullFloat64) UnmarshalJSON(data []byte) error {
+func (f *Float64) UnmarshalJSON(data []byte) error {
 	var value *float64
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
@@ -85,7 +85,7 @@ func (f *NullFloat64) UnmarshalJSON(data []byte) error {
 }
 
 // Value implement driver.Valuer.
-func (f NullFloat64) Value() (driver.Value, error) {
+func (f Float64) Value() (driver.Value, error) {
 	if !f.Valid() {
 		return nil, nil
 	}
