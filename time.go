@@ -1,8 +1,6 @@
 package nulltype
 
 import (
-	"database/sql"
-	"database/sql/driver"
 	"encoding/json"
 	"time"
 )
@@ -38,8 +36,7 @@ func (t *Time) String() string {
 	if t == nil {
 		return ""
 	}
-	tt := Time(*t)
-	return tt.Format("2006/01/02 15:04:05")
+	return time.Time(*t).Format("2006/01/02 15:04:05")
 }
 
 // MarshalJSON encode the value to JSON.
@@ -47,7 +44,7 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 	if t == nil {
 		return []byte("null"), nil
 	}
-	return json.Marshal(t.t.Format(time.RFC3339))
+	return json.Marshal(time.Time(*t).Format(time.RFC3339))
 }
 
 // UnmarshalJSON decode data to the value.
@@ -61,7 +58,7 @@ func (t *Time) UnmarshalJSON(data []byte) error {
 		if err != nil {
 			return err
 		}
-		t.t = tt
+		*t = Time(tt)
 	}
 	return nil
 }
