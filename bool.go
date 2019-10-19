@@ -22,6 +22,9 @@ func (b *Bool) ValueWithDefault(Default bool) bool {
 }
 
 func (b *Bool) Value() bool {
+	if b == nil{
+		panic("null string has no value")
+	}
 	return bool(*b)
 }
 

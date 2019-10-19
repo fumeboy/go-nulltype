@@ -21,6 +21,9 @@ func (t *Time) ValueWithDefault(Default time.Time) time.Time {
 }
 
 func (t *Time) Value() time.Time {
+	if t == nil{
+		panic("null string has no value")
+	}
 	return time.Time(*t)
 }
 

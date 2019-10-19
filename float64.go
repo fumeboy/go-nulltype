@@ -22,6 +22,9 @@ func (f *Float64) ValueWithDefault(Default float64) float64 {
 }
 
 func (f *Float64) Value() float64 {
+	if f == nil{
+		panic("null string has no value")
+	}
 	return float64(*f)
 }
 

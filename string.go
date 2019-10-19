@@ -21,6 +21,9 @@ func (s *String) ValueWithDefault(Default string) string {
 }
 
 func (s *String) Value() string {
+	if s == nil{
+		panic("null string has no value")
+	}
 	return string(*s)
 }
 // Set set the value.

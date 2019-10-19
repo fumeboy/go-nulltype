@@ -22,6 +22,9 @@ func (i *Int64) ValueWithDefault(Default int64) int64 {
 }
 
 func (i *Int64) Value() int64 {
+	if i == nil{
+		panic("null string has no value")
+	}
 	return int64(*i)
 }
 // Set set the value.
