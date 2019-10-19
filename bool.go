@@ -14,6 +14,17 @@ func PtrBoolOf(value bool) *Bool {
 	return &b
 }
 
+func (b *Bool) ValueWithDefault(Default bool) bool {
+	if b == nil{
+		return Default
+	}
+	return bool(*b)
+}
+
+func (b *Bool) Value() bool {
+	return bool(*b)
+}
+
 // Set set the value.
 func (b *Bool) Set(value bool) *Bool {
 	*b = Bool(value)

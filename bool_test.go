@@ -92,9 +92,9 @@ func TestNullBoolUnmarshalJSON(t *testing.T) {
 		Bo *Bool
 		Aa int
 	}
-
-	fmt.Println(json.Unmarshal(json.Marshal(test{})))
-	fmt.Println(test{Bo: PtrBoolOf(true)})
+	var at = new(test)
+	_ = json.Unmarshal([]byte(`{"Bo":true, "Aa":0}`), at)
+	fmt.Println(at)
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&b)
 	if err != nil {

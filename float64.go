@@ -14,6 +14,17 @@ func PtrFloat64Of(value float64) *Float64 {
 	return &s
 }
 
+func (f *Float64) ValueWithDefault(Default float64) float64 {
+	if f == nil{
+		return Default
+	}
+	return float64(*f)
+}
+
+func (f *Float64) Value() float64 {
+	return float64(*f)
+}
+
 // Set set the value.
 func (f *Float64) Set(value float64) *Float64 {
 	*f = Float64(value)

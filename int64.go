@@ -13,6 +13,17 @@ func PtrInt64Of(value int64) *Int64 {
 	s.Set(value)
 	return &s
 }
+
+func (i *Int64) ValueWithDefault(Default int64) int64 {
+	if i == nil{
+		return Default
+	}
+	return int64(*i)
+}
+
+func (i *Int64) Value() int64 {
+	return int64(*i)
+}
 // Set set the value.
 func (i *Int64) Set(value int64) *Int64 {
 	*i = Int64(value)

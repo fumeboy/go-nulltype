@@ -13,6 +13,16 @@ func PtrTimeOf(value time.Time) *Time {
 	t.Set(value)
 	return &t
 }
+func (t *Time) ValueWithDefault(Default time.Time) time.Time {
+	if t == nil{
+		return Default
+	}
+	return time.Time(*t)
+}
+
+func (t *Time) Value() time.Time {
+	return time.Time(*t)
+}
 
 // Set set the value.
 func (t *Time) Set(value time.Time) {

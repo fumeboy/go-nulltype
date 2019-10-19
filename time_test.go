@@ -37,6 +37,15 @@ func TestNullTimeStringer(t *testing.T) {
 func TestNullTimeMarshalJSON(t *testing.T) {
 	var nt *Time
 
+	type test struct {
+		Bo *Time
+		Aa int
+	}
+	data, _ := json.Marshal(test{Aa: 1})
+	fmt.Println(string(data))
+	data, _ = json.Marshal(test{Bo: PtrTimeOf(time.Now())})
+	fmt.Println(string(data))
+
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(nt)
 	if err != nil {
@@ -66,36 +75,11 @@ func TestNullTimeMarshalJSON(t *testing.T) {
 }
 
 func TestNullTimeUnmarshalJSON(t *testing.T) {
-	var nt *Time
-
-	err := json.NewDecoder(strings.NewReader("null")).Decode(&nt)
-	if err != nil {
-		t.Fatal(err)
+	type test struct {
+		Bo *Time
+		Aa int
 	}
-
-	err = json.NewDecoder(strings.NewReader(`"2019-02-01T11:12:13Z"`)).Decode(&nt)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if nt == nil {
-		t.Fatalf("must not be null but got nil")
-	}
-
-	now, _ := time.Parse(time.RFC3339, "2019-02-01T11:12:13Z")
-	want := now
-	got := *nt
-	if got != Time(want) {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	err = json.NewDecoder(strings.NewReader("{}")).Decode(&nt)
-	if err == nil {
-		t.Fatal("should be fail")
-	}
-
-	err = json.NewDecoder(strings.NewReader(`"2019-02-01"`)).Decode(&nt)
-	if err == nil {
-		t.Fatal("should be fail")
-	}
+	var at = new(test)
+	_ = json.Unmarshal([]byte(`{"Bo":"2019-10-19T18:28:52+08:00", "Aa":0}`), at)
+	fmt.Println(at)
 }

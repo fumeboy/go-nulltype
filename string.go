@@ -13,6 +13,16 @@ func PtrStringOf(value string) *String {
 	return &s
 }
 
+func (s *String) ValueWithDefault(Default string) string {
+	if s == nil{
+		return Default
+	}
+	return string(*s)
+}
+
+func (s *String) Value() string {
+	return string(*s)
+}
 // Set set the value.
 func (s *String) Set(value string) {
 	*s = String(value)
