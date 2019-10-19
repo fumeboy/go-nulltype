@@ -9,14 +9,14 @@ import (
 )
 
 func TestNullBoolStringer(t *testing.T) {
-	var b Bool
+	var b *Bool = nil
 
 	want := ""
 	got := fmt.Sprint(b)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
 	}
-
+	b = PtrBoolOf(false)
 	want = "true"
 	b.Set(true)
 	got = fmt.Sprint(b)
@@ -25,14 +25,7 @@ func TestNullBoolStringer(t *testing.T) {
 	}
 
 	want = "false"
-	b = BoolOf(false)
-	got = fmt.Sprint(b)
-	if got != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	want = ""
-	b.Reset()
+	b = PtrBoolOf(false)
 	got = fmt.Sprint(b)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -40,7 +33,16 @@ func TestNullBoolStringer(t *testing.T) {
 }
 
 func TestNullBoolMarshalJSON(t *testing.T) {
-	var b Bool
+	var b *Bool
+
+	type test struct {
+		Bo *Bool
+		Aa int
+	}
+	data, _ := json.Marshal(test{Aa: 1})
+	fmt.Println(string(data))
+	data, _ = json.Marshal(test{Bo: PtrBoolOf(true)})
+	fmt.Println(string(data))
 
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(b)
@@ -55,7 +57,7 @@ func TestNullBoolMarshalJSON(t *testing.T) {
 	}
 
 	buf.Reset()
-
+	b = PtrBoolOf(false)
 	b.Set(true)
 	err = json.NewEncoder(&buf).Encode(b)
 	if err != nil {
@@ -84,15 +86,19 @@ func TestNullBoolMarshalJSON(t *testing.T) {
 }
 
 func TestNullBoolUnmarshalJSON(t *testing.T) {
-	var b Bool
+	var b *Bool
+
+	type test struct {
+		Bo *Bool
+		Aa int
+	}
+
+	fmt.Println(json.Unmarshal(json.Marshal(test{})))
+	fmt.Println(test{Bo: PtrBoolOf(true)})
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&b)
 	if err != nil {
 		t.Fatal(err)
-	}
-
-	if b.Valid() {
-		t.Fatalf("must be null but got %v", b)
 	}
 
 	err = json.NewDecoder(strings.NewReader("true")).Decode(&b)
@@ -100,12 +106,12 @@ func TestNullBoolUnmarshalJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !b.Valid() {
+	if b == nil {
 		t.Fatalf("must not be null but got nil")
 	}
 
-	want := true
-	got := b.BoolValue()
+	want := Bool(true)
+	got := *b
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
 	}
@@ -113,42 +119,5 @@ func TestNullBoolUnmarshalJSON(t *testing.T) {
 	err = json.NewDecoder(strings.NewReader(`"foo"`)).Decode(&b)
 	if err == nil {
 		t.Fatal("should be fail")
-	}
-}
-
-func TestNullBoolValueConverter(t *testing.T) {
-	var b Bool
-
-	err := b.Scan("1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !b.Valid() {
-		t.Fatalf("must not be null but got nil")
-	}
-
-	want := true
-	got := b.BoolValue()
-	if got != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	gotv, err := b.Value()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if gotv != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	b.Reset()
-
-	gotv, err = b.Value()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if gotv != nil {
-		t.Fatalf("must be null but got %v", gotv)
 	}
 }

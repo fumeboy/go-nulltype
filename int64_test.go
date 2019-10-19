@@ -9,7 +9,7 @@ import (
 )
 
 func TestNullInt64Stringer(t *testing.T) {
-	var i Int64
+	var i *Int64
 
 	want := ""
 	got := fmt.Sprint(i)
@@ -17,6 +17,7 @@ func TestNullInt64Stringer(t *testing.T) {
 		t.Fatalf("want %v, but %v:", want, got)
 	}
 
+	i = PtrInt64Of(0)
 	want = "3"
 	i.Set(3)
 	got = fmt.Sprint(i)
@@ -25,13 +26,7 @@ func TestNullInt64Stringer(t *testing.T) {
 	}
 
 	want = "5"
-	i = Int64Of(5)
-	got = fmt.Sprint(i)
-	if got != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-	want = ""
-	i.Reset()
+	i = PtrInt64Of(5)
 	got = fmt.Sprint(i)
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
@@ -69,14 +64,14 @@ func TestNullInt64MarshalJSON(t *testing.T) {
 }
 
 func TestNullInt64UnmarshalJSON(t *testing.T) {
-	var i Int64
+	var i *Int64
 
 	err := json.NewDecoder(strings.NewReader("null")).Decode(&i)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if i.Valid() {
+	if i == nil {
 		t.Fatalf("must be null but got %v", i)
 	}
 
@@ -85,12 +80,12 @@ func TestNullInt64UnmarshalJSON(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !i.Valid() {
+	if i == nil {
 		t.Fatalf("must not be null but got nil")
 	}
 
-	want := int64(3)
-	got := i.Int64Value()
+	want := Int64(3)
+	got := *i
 	if got != want {
 		t.Fatalf("want %v, but %v:", want, got)
 	}
@@ -98,42 +93,5 @@ func TestNullInt64UnmarshalJSON(t *testing.T) {
 	err = json.NewDecoder(strings.NewReader(`"foo"`)).Decode(&i)
 	if err == nil {
 		t.Fatal("should be fail")
-	}
-}
-
-func TestNullInt64ValueConverter(t *testing.T) {
-	var i Int64
-
-	err := i.Scan("3")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !i.Valid() {
-		t.Fatalf("must not be null but got nil")
-	}
-
-	want := int64(3)
-	got := i.Int64Value()
-	if got != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	gotv, err := i.Value()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if gotv != want {
-		t.Fatalf("want %v, but %v:", want, got)
-	}
-
-	i.Reset()
-
-	gotv, err = i.Value()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if gotv != nil {
-		t.Fatalf("must be null but got %v", gotv)
 	}
 }
