@@ -1,3 +1,3 @@
-module github.com/fumeboy/go-nulltype
+module github.com/fumeboy/nulltype
 
 go 1.10
