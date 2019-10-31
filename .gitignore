@@ -15,8 +15,6 @@ dist
 build
 .idea/
 .history
-customMock.js
-.sloth
 
 # vscode
 
